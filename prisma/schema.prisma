@@ -15,3 +15,16 @@ datasource db {
 
 // npx prisma migrate dev
 // npx prisma studio <- gui 여는거
+
+model Study {
+  id         String   @id @default(uuid())
+  nickName   String
+  studyName  String
+  introduce  String
+  point      Int      @default(0)
+  background String
+  password   String
+  emojis     String[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
