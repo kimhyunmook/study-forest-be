@@ -4,7 +4,8 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 //조회
-router.get("/:id", async (req, res) => {
+
+router.get("/", async (req, res) => {
   const { id } = req.params;
   let result = {
     msg: "",
@@ -15,7 +16,7 @@ router.get("/:id", async (req, res) => {
         id,
       },
     });
-    result.data = "";
+    result.data = data;
   } catch (error) {
     console.error("errorMsg : ", error);
     result.msg = error;
