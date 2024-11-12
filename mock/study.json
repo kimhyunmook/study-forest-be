@@ -1,0 +1,44 @@
+[
+  {
+    "nickName": "studylover01",
+    "studyName": "초보자를 위한 Python 스터디",
+    "introduce": "Python 기초부터 실전 프로젝트까지 함께 공부해요!",
+    "background": "blue",
+    "password": "securePassword1!"
+  },
+  {
+    "nickName": "developer92",
+    "studyName": "알고리즘과 데이터 구조 마스터 클래스",
+    "introduce": "알고리즘과 자료 구조를 깊이 있게 다루며 취업 준비까지!",
+    "background": "bg1",
+    "password": "strongPassword2@"
+  },
+  {
+    "nickName": "dataNinja",
+    "studyName": "데이터 분석을 위한 SQL 스터디",
+    "introduce": "SQL 기초부터 데이터 분석까지 함께 성장해요.",
+    "background": "bg2",
+    "password": "safePass3#"
+  },
+  {
+    "nickName": "webWizard",
+    "studyName": "React & Frontend Mastery",
+    "introduce": "React와 프론트엔드 기술로 실전 웹 개발 프로젝트를 진행해요.",
+    "background": "green",
+    "password": "webDev123$"
+  },
+  {
+    "nickName": "mlGenius",
+    "studyName": "Machine Learning for Beginners",
+    "introduce": "기초적인 머신러닝 개념과 실습을 통해 ML 입문을 돕습니다.",
+    "background": "yellow",
+    "password": "mlStart!456"
+  },
+  {
+    "nickName": "cyberSleuth",
+    "studyName": "기초 해킹과 사이버 보안",
+    "introduce": "해킹과 보안 기초를 배우고, 실습을 통해 사이버 보안의 기초를 쌓아요.",
+    "background": "bg4",
+    "password": "securePass789!"
+  }
+]

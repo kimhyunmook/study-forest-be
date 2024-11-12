@@ -24,7 +24,15 @@ model Study {
   point      Int      @default(0)
   background String
   password   String
-  emojis     String[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  emojis     Emojis[]
+}
+
+model Emojis {
+  id        String @id @default(uuid())
+  emojiIcon String
+  value     Int    @default(0)
+  studyId   String
+  study     Study  @relation(fields: [studyId], references: [id])
 }
