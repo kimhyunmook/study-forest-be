@@ -27,12 +27,31 @@ model Study {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   emojis     Emojis[]
+  habit      Habit[]
 }
 
 model Emojis {
-  id        String @id @default(uuid())
+  id        String   @id @default(uuid())
   emojiIcon String
-  value     Int    @default(0)
+  value     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   studyId   String
-  study     Study  @relation(fields: [studyId], references: [id])
+  study     Study    @relation(fields: [studyId], references: [id])
+}
+
+model Habit {
+  id         String   @id @default(uuid())
+  name       String   @default("noName")
+  monday     Boolean  @default(false)
+  tuesday    Boolean  @default(false)
+  wendnesday Boolean  @default(false)
+  thursday   Boolean  @default(false)
+  friday     Boolean  @default(false)
+  saturday   Boolean  @default(false)
+  sunday     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  studyId    String
+  study      Study    @relation(fields: [studyId], references: [id])
 }

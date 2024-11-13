@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Morning Exercise",
+    "monday": true,
+    "tuesday": true,
+    "wendnesday": true,
+    "thursday": true,
+    "friday": true,
+    "saturday": false,
+    "sunday": false,
+    "studyId": "09959706-9def-4e9a-8fb4-938ffc754051"
+  },
+  {
+    "name": "Reading",
+    "monday": true,
+    "tuesday": true,
+    "wendnesday": true,
+    "thursday": true,
+    "friday": true,
+    "saturday": true,
+    "sunday": true,
+    "studyId": "09959706-9def-4e9a-8fb4-938ffc754051"
+  },
+  {
+    "name": "Meditation",
+    "monday": true,
+    "tuesday": false,
+    "wendnesday": true,
+    "thursday": false,
+    "friday": true,
+    "saturday": false,
+    "sunday": false,
+    "studyId": "09959706-9def-4e9a-8fb4-938ffc754051"
+  },
+  {
+    "name": "Coding Practice",
+    "monday": false,
+    "tuesday": true,
+    "wendnesday": false,
+    "thursday": true,
+    "friday": false,
+    "saturday": true,
+    "sunday": true,
+    "studyId": "09959706-9def-4e9a-8fb4-938ffc754051"
+  },
+  {
+    "name": "Yoga",
+    "monday": false,
+    "tuesday": true,
+    "wendnesday": true,
+    "thursday": true,
+    "friday": false,
+    "saturday": false,
+    "sunday": true,
+    "studyId": "09959706-9def-4e9a-8fb4-938ffc754051"
+  },
+  {
+    "name": "Journal Writing",
+    "monday": true,
+    "tuesday": false,
+    "wendnesday": false,
+    "thursday": true,
+    "friday": true,
+    "saturday": false,
+    "sunday": false,
+    "studyId": "09959706-9def-4e9a-8fb4-938ffc754051"
+  }
+]
