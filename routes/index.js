@@ -1,21 +1,12 @@
 import express from "express";
 import studyDetail from "./studyDetail/router.js";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import test from "./studyDetail/test.js"
 const router = express.Router();
+/**
+ *  routes 안에 기능별 폴더로 이름을 구분해주시고 js파일을 만들어 router로 만들어주세요 
+ *  이곳에 import 후 router.use() 해주세요!
+*/
 router.use("/studydetail", studyDetail);
-
-//home 용 임시
-router.get("/home", async (req, res) => {
-  let status = 0;
-  let result = {};
-  try {
-    status = 201;
-  } catch (err) {
-    console.error(err);
-    status = 400;
-  }
-  res.status(status).send(result);
-});
+router.use("/test", test);
 
 export default router;
