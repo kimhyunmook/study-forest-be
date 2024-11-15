@@ -43,20 +43,18 @@ router.get("/g", async (req, res) => {
 router.post("/g", async (req, res) => {
   try {
     const { id } = req.body;
-    const data = await [...id].map(async (v, index) => {
-      let item = await prisma.study.findUnique({
-        where: {
-          id: v,
-        },
-        include: {
-          emojis: true,
-        },
-      });
-      return item;
-    });
+    const data = await Promise.all(
+      id.map(async (v) => {
+        return await prisma.study.findUnique({
+          where: { id: v },
+          include: { emojis: true },
+        });
+      })
+    );
+
     res.status(201).send({
       msg: "success",
-      data,
+      data: data.slice(0, 3),
     });
   } catch (err) {
     console.error(err);
