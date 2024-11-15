@@ -1,13 +1,15 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import auth from "../../middleware/auth.js";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-//조회
+router.use(auth);
 
+//조회
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
-  let result = {
+  const result = {
     msg: "조회 성공",
   };
   try {
@@ -26,7 +28,65 @@ router.get("/:id", async (req, res) => {
     console.error("errorMsg : ", error);
   }
 });
-// router.get("/", service.getMain);
-// router.get("/about", service.getMianAbout);
+
+// pw 로 인증
+router.post("/auth", auth, async (req, res) => {
+  const result = {
+    auth: false,
+    data: {},
+  };
+  try {
+    result.data = res.locals.study;
+    result.auth = true;
+    res.status(200).send(result);
+  } catch (error) {
+    console.error("errorMsg : ", error);
+    result.error = error;
+    res.send(result);
+  }
+});
+
+// 수정하기
+router.patch("/edit", auth, async (req, res) => {
+  const body = req.body;
+  const result = {
+    data: {},
+  };
+  try {
+    const data = await prisma.study.update({
+      data: {
+        body,
+      },
+      where: {
+        id: body.id,
+      },
+    });
+    result.data = data;
+    res.status(200).send(result);
+  } catch (error) {
+    console.error("errorMsg : ", error);
+    result.error = error;
+    res.status(400).send(result);
+  }
+});
+
+// 이모지 추가하기
+router.post("/emoji/add", async (req, res) => {
+  const body = req.body;
+  const result = {
+    data: {},
+  };
+  try {
+    const data = await prisma.emojis.create({
+      data: body,
+    });
+    result.data = data;
+    res.status(201).send(result);
+  } catch (error) {
+    console.error("errorMsg : ", error);
+    result.error = error;
+    res.status(400).send(result);
+  }
+});
 
 export default router;
