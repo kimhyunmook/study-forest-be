@@ -1,10 +1,12 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
 import auth from "../../middleware/auth.js";
+import cookieParser from "cookie-parser";
 const router = express.Router();
 const prisma = new PrismaClient();
 
 router.use(auth);
+router.use(cookieParser());
 
 //조회
 router.get("/:id", async (req, res) => {

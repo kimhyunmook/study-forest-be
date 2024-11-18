@@ -73,5 +73,5 @@ async function habit() {
 }
 
 // studySeed();
-habit();
+// habit();
 // emojis();
