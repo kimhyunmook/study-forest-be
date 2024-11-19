@@ -1,7 +1,9 @@
 import { PrismaClient } from "@prisma/client";
+import { v4 as uuidv4 } from "uuid";
 const prisma = new PrismaClient();
 export default async function auth(req, res, next) {
   const { id, pw } = req.body;
+  const cookies = req.cookies;
 
   try {
     const study = await prisma.study.findUnique({
@@ -11,17 +13,21 @@ export default async function auth(req, res, next) {
       include: {
         emojis: true,
         habit: true,
+        authKey: true,
       },
     });
-    if (study.password === pw) {
-      res.locals.study = study;
-      next();
-    } else
-      res.status(204).send({
-        msg: "인증 실패",
-        auth: false,
-      });
+
+    if (!!study.authKey[0]) return next();
+    if (study.password !== pw) return res.send({ t: "no pw" });
+    await prisma.authKey.create({
+      data: {
+        studyId: study.id,
+        value: uuidv4(),
+      },
+    });
+
+    return next();
   } catch (err) {
-    console.error(err);
+    console.error("err", err);
   }
 }

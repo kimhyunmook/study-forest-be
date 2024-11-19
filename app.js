@@ -2,6 +2,9 @@ import * as dotenv from "dotenv";
 import express from "express";
 import router from "./routes/index.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import cron from "node-cron";
+import { PrismaClient } from "@prisma/client";
 
 dotenv.config();
 
@@ -11,8 +14,29 @@ app.use(
     origin: "*",
   })
 );
+app.use(cookieParser());
 app.use(express.json());
 app.use("/api", router);
+
+const prisma = new PrismaClient();
+
+/** 한 시간마다 인증키 지워버리는 코드 */
+cron.schedule("* * * * *", async () => {
+  const now = new Date();
+  const oneMius = new Date(now.getTime() - 60 * 60 * 1000);
+  console.log("delete Date :", oneMius);
+  try {
+    await prisma.authKey.deleteMany({
+      where: {
+        createdAt: {
+          lt: oneMius,
+        },
+      },
+    });
+  } catch (err) {
+    console.error("스케쥴 err", err);
+  }
+});
 
 const port = process.env.PORT || 8000;
 
