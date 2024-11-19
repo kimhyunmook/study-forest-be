@@ -72,6 +72,6 @@ async function habit() {
   }
 }
 
-// studySeed();
-// habit();
-// emojis();
+await studySeed();
+await habit();
+await emojis();

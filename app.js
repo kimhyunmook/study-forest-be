@@ -20,7 +20,7 @@ app.use("/api", router);
 
 const prisma = new PrismaClient();
 
-/** 한 시간마다 인증키 지워버리는 코드 */
+/** 1분 마다 한 시간지난 인증키 지워버리는 코드 */
 cron.schedule("* * * * *", async () => {
   const now = new Date();
   const oneMius = new Date(now.getTime() - 60 * 60 * 1000);
