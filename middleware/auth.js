@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 const prisma = new PrismaClient();
 export default async function auth(req, res, next) {
   const { id, pw } = req.body;
-  const cookies = req.cookies;
 
   try {
     const study = await prisma.study.findUnique({
