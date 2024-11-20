@@ -29,46 +29,45 @@ router.get("/main", async (req, res) => {
 
   const offset = (page - 1) * pageSize;
 
-    const data = await prisma.study.findMany({
-        where: searchQuery,
-        orderBy: sortOption,
-        skip: offset,  //offset
-        take: pageSize,   // limit
-        include: {
-            emojis: true,
-            habit: true
-        },
-    });
-    res.status(201).send({
-        msg: "success",
-        data,
-    });
+  const data = await prisma.study.findMany({
+    where: searchQuery,
+    orderBy: sortOption,
+    skip: offset, //offset
+    take: pageSize, // limit
+    include: {
+      emojis: true,
+      habit: true,
+    },
+  });
+  res.status(201).send({
+    msg: "success",
+    data,
+  });
 });
 
 router.post("/create", async (req, res) => {
-    const study = await prisma.study.create({
-        data: req.body,
-    });
-    res.status(201).send(study);
-})
+  const study = await prisma.study.create({
+    data: req.body,
+  });
+  res.status(201).send(study);
+});
 
 router.post("/emojis", async (req, res) => {
-    const { id, emojiIcon, value, studyId } = req.body;
+  const { id } = req.body;
 
-    const existingEmoji = await prisma.emojis.findFirst({
-        where: {
-            studyId,
-            emojiIcon,
-        },
-    });
-    if (existingEmoji) {
-        const updatedEmoji = await prisma.emojis.update({
-            where: { id: existingEmoji.id },
-            data: { value: existingEmoji.value + 1 },
-        });
+  const updatedEmoji = await prisma.emojis.update({
+    where: { id },
+    data: {
+      value: {
+        increment: 1,
+      },
+    },
+    include: {
+      study: true,
+    },
+  });
 
-        return res.status(200).send(updatedEmoji);
-    }
+  res.status(200).send({ msg: "success" });
 });
 
 export default router;
