@@ -38,10 +38,36 @@ router.get("/main", async (req, res) => {
             habit: true
         },
     });
-    res.status(201).send({
+    res.status(200).send({
         msg: "success",
         data,
     });
+});
+
+router.post("/create", async (req, res) => {
+    const study = await prisma.study.create({
+        data: req.body,
+    });
+    res.status(201).send(study);
+})
+
+router.post("/emojis", async (req, res) => {
+    const { id, emojiIcon, value, studyId } = req.body;
+
+    const existingEmoji = await prisma.emojis.findFirst({
+        where: {
+            studyId,
+            emojiIcon,
+        },
+    });
+    if (existingEmoji) {
+        const updatedEmoji = await prisma.emojis.update({
+            where: { id: existingEmoji.id },
+            data: { value: existingEmoji.value + 1 },
+        });
+
+        return res.status(200).send(updatedEmoji);
+    }
 });
 
 export default router;
