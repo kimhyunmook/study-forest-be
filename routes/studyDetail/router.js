@@ -31,23 +31,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// pw 로 인증
-router.post("/auth", auth, async (req, res) => {
-  const result = {
-    auth: false,
-    data: {},
-  };
-  try {
-    result.data = res.locals.study;
-    result.auth = true;
-    res.status(200).send(result);
-  } catch (error) {
-    console.error("errorMsg : ", error);
-    result.error = error;
-    res.send(result);
-  }
-});
-
+ 
 // 수정하기
 router.patch("/edit", auth, async (req, res) => {
   const body = req.body;
