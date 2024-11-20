@@ -12,15 +12,6 @@ router.get("/g", async (req, res) => {
   const offset = (page - 1) * pageSize;
   try {
     const data = await prisma.study.findMany({
-      // where: {
-      //   AND: [
-      //     {
-      //       OR :[
-
-      //       ]
-      //     }
-      //   ]
-      // },
 
       skip: offset,
       take: pageSize,
