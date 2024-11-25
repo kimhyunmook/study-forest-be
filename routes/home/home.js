@@ -193,4 +193,31 @@ router.delete('/study/:id', async (req, res) => {
     }
 });
 
+router.patch('/habitUpdate', async (req, res) => {
+    const { habitId, dayKey, newValue } = req.body;
+
+    try {
+        const habit1 = await prisma.habit.findUnique({
+            where: { id: habitId },
+        });
+
+        if (!habit1) {
+            return res.status(404).json({ message: "Habit not found" });
+        }
+        await prisma.habit.update({
+            where: {
+                id: habitId,
+            },
+            data: {
+                [dayKey]: newValue
+            }
+        })
+
+        return res.status(200).json({ message: "Habit updated successfully" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "서버 오류" });
+    }
+});
+
 export default router;
