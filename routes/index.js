@@ -12,7 +12,7 @@ const router = express.Router();
  */
 router.use("/focus", focusPage);
 router.use("/detailPage", detailPage);
-router.use("/studydetail", studyDetail);
+router.use("/study", studyDetail);
 router.use("/test", test);
 router.use("/habitPage", todayHabit);
 router.use("/home", home);
