@@ -17,7 +17,7 @@ export default async function auth(req, res, next) {
     });
 
     if (!!study.authKey[0]) return next();
-    if (study.password !== pw) return res.send({ t: "no pw" });
+    if (study.password !== pw) return res.send({ auth: false, t:'no pw' });
     await prisma.authKey.create({
       data: {
         studyId: study.id,
