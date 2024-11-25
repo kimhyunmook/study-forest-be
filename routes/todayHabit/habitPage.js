@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 const router = express.Router();
 
 //오늘의 습관 조회
-router.get('/habits', async(req, res) => {
+router.get('/habits', async (req, res) => {
   try {
     const habits = await prisma.habit.findMany({
       where: { isActive: true },
@@ -17,14 +17,14 @@ router.get('/habits', async(req, res) => {
         },
       },
     });
-    res,json(habits);
+    res, json(habits);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
 // 습관 추가
-router.put('/habits/:id', async (req, res) =>{
+router.put('/habits/:id', async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
   try {
@@ -34,7 +34,7 @@ router.put('/habits/:id', async (req, res) =>{
     });
     res.json(updatedHabit);
   } catch (error) {
-    res.status(400).json({ error: error.message});
+    res.status(400).json({ error: error.message });
   }
 });
 
@@ -43,12 +43,12 @@ router.delete('/habits/:id', async (req, res) => {
   const { id } = req.params;
   try {
     await prisma.habit.update({
-      where: { id : parseInt(id) },
+      where: { id: parseInt(id) },
       data: { isActive: false },
     });
     res.status(204).send();
   } catch (error) {
-    res.status(400).json({ error: error.message});
+    res.status(400).json({ error: error.message });
   }
 });
 
@@ -68,7 +68,7 @@ router.post('/habit/:id/check', async (req, res) => {
       //체크상태
       const updatedCheck = await prisma.habitCheck.update({
         where: { id: existingCheck.id },
-        data: { isChecked: !existingCheck.isChecked},
+        data: { isChecked: !existingCheck.isChecked },
       });
       res.json(updatedCheck);
     } else {
