@@ -15,4 +15,15 @@ router.post("/create", async (req, res) => {
   }
 });
 
+router.patch("/:id", async (req, res) => {
+  const id = req.params.id;
+  const updatedStudy = await prisma.study.update({
+    data: req.body,
+    where: {
+      id: id,
+    },
+  });
+  res.status(200).send(updatedStudy);
+});
+
 export default router;
