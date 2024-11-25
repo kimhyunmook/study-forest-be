@@ -65,7 +65,7 @@ router.post('/habit/:id/check', async (req, res) => {
     });
 
     if (existingCheck) {
-      //체크상태
+      //체크 상태
       const updatedCheck = await prisma.habitCheck.update({
         where: { id: existingCheck.id },
         data: { isChecked: !existingCheck.isChecked},
@@ -86,10 +86,6 @@ router.post('/habit/:id/check', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-
-
-
 
 
 export default router;
