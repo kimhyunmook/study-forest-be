@@ -33,7 +33,7 @@ model Study {
 
 model AuthKey {
   id        String   @id @default(uuid())
-  study     Study    @relation(fields: [studyId], references: [id])
+  study     Study    @relation(fields: [studyId], references: [id], onDelete: Cascade)
   value     String
   studyId   String
   createdAt DateTime @default(now())
@@ -46,7 +46,7 @@ model Emojis {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   studyId   String
-  study     Study    @relation(fields: [studyId], references: [id])
+  study     Study    @relation(fields: [studyId], references: [id], onDelete: Cascade)
 }
 
 model Habit {
@@ -62,24 +62,23 @@ model Habit {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   studyId    String
-  study      Study    @relation(fields: [studyId], references: [id])
+  study      Study    @relation(fields: [studyId], references: [id], onDelete: Cascade)
 }
 
 //오늘의 습관 목록 데이터 (동재)
 model todayHabit {
-  id String @id @default(uuid())
-  name String @unique
-  createdAt DateTime @default(now()) //추가했을시 
-  updatedAt DateTime @updatedAt // 업데이트시
-  isActive Boolean @default(true) // 활성 상태 확인
-  checks todayHabitCheck[]
+  id        String            @id @default(uuid())
+  name      String            @unique
+  createdAt DateTime          @default(now()) //추가했을시 
+  updatedAt DateTime          @updatedAt // 업데이트시
+  isActive  Boolean           @default(true) // 활성 상태 확인
+  checks    todayHabitCheck[]
 }
 
 model todayHabitCheck {
-  id String @id @default(uuid())
-  habitId String
+  id        String   @id @default(uuid())
+  habitId   String
   checkDate DateTime
-  isChecked Boolean @default(false) //비활성 상태
-
+  isChecked Boolean  @default(false) //비활성 상태
   habit todayHabit @relation(fields: [habitId], references: [id], onDelete: Cascade)
 }
