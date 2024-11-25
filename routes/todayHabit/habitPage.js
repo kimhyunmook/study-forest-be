@@ -88,4 +88,27 @@ router.post('/habit/:id/check', async (req, res) => {
 });
 
 
+router.get('/study/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const study = await prisma.study.findUnique({
+      where: { id },
+      select: {
+        nickName: true, // nickName만 가져옴
+      },
+    });
+
+    if (!study) {
+      return res.status(404).json({ error: "스터디를 찾을 수 없습니다." });
+    }
+
+    res.json({ data: study });
+  } catch (error) {
+    console.error("스터디 닉네임 가져오기 실패:", error);
+    res.status(500).json({ error: "서버 에러가 발생했습니다." });
+  }
+});
+
+
 export default router;
