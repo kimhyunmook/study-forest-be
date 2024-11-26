@@ -9,7 +9,7 @@ const router = express.Router();
 //오늘의 습관 조회
 router.get('/habits', async (req, res) => {
   try {
-    const habits = await prisma.habit.findMany({
+    const habits = await prisma.todayHabit.findMany({
       where: { isActive: true },
       include: {
         checks: {
@@ -17,9 +17,9 @@ router.get('/habits', async (req, res) => {
         },
       },
     });
-    res, json(habits);
+    res.json(habits);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 });
 
@@ -28,8 +28,8 @@ router.put('/habits/:id', async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
   try {
-    const updatedHabit = await prisma.habit.update({
-      where: { id: parseInt(id) },
+    const updatedHabit = await prisma.todayHabit.update({
+      where: { id },
       data: { name },
     });
     res.json(updatedHabit);
@@ -42,8 +42,8 @@ router.put('/habits/:id', async (req, res) => {
 router.delete('/habits/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    await prisma.habit.update({
-      where: { id: parseInt(id) },
+    await prisma.todayHabit.update({
+      where: { id },
       data: { isActive: false },
     });
     res.status(204).send();
@@ -56,26 +56,26 @@ router.delete('/habits/:id', async (req, res) => {
 router.post('/habit/:id/check', async (req, res) => {
   const { id } = req.params;
   try {
-    const today = new Date().toDateString().slice(0, 10); // 오늘 날짜
-    const existingCheck = await prisma.habitCheck.findFirst({
+    const today = new Date().toISOString().slice(0, 10); // 오늘 날짜
+    const existingCheck = await prisma.todayHabitCheck.findFirst({
       where: {
-        habitId: parseInt(id),
+        habitId: id,
         checkDate: today,
       },
     });
 
     if (existingCheck) {
       //체크상태
-      const updatedCheck = await prisma.habitCheck.update({
+      const updatedCheck = await prisma.todayHabitCheck.update({
         where: { id: existingCheck.id },
         data: { isChecked: !existingCheck.isChecked },
       });
       res.json(updatedCheck);
     } else {
       // 새로운체크
-      const newCheck = await prisma.habitCheck.create({
+      const newCheck = await prisma.todayHabitCheck.create({
         data: {
-          habitId: parseInt(id),
+          habitId: id,
           checkDate: today,
           isChecked: true,
         },
@@ -83,7 +83,7 @@ router.post('/habit/:id/check', async (req, res) => {
       res.status(201).json(newCheck);
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 });
 
