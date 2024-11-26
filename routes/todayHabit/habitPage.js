@@ -25,20 +25,54 @@ router.get("/habits", async (req, res) => {
 
 // 습관 추가 (POST /habits)
 router.post("/habits", async (req, res) => {
-  const { name } = req.body;
+  const { name, studyId } = req.body;  // studyId가 제대로 전달되었는지 확인
+
+  console.log(name);
+  console.log(studyId);
+  if (!studyId) {
+    return res.status(400).json({ error: "studyId가 필요합니다." });
+  }
+
   try {
-    const newHabit = await prisma.todayHabit.create({
+    // 습관을 데이터베이스에 저장 (습관 이름과 studyId 연결)
+    const newHabit = await prisma.habit.create({
       data: {
         name,
-        isActive: true,
+        studyId,  // studyId를 외래키로 사용하여 습관과 연결
       },
     });
-    res.status(201).json(newHabit);
+
+    res.status(201).json(newHabit);  // 새로 추가된 습관 데이터 응답
   } catch (error) {
     console.error("습관 추가 실패:", error);
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: "습관 추가 실패" });
   }
-  console.log("쉐리")
+});
+
+router.get("/habits/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const habits = await prisma.habit.findMany({
+      where: { studyId: id }, // studyId에 해당하는 Habit만 필터링
+    });
+
+    if (!habits || habits.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "해당 스터디에 등록된 습관이 없습니다." });
+    }
+
+    return res.status(200).json({
+      message: "습관 데이터를 성공적으로 가져왔습니다.",
+      data: habits,
+    });
+  } catch (error) {
+    console.error("Error fetching habits:", error);
+    return res.status(500).json({
+      message: "습관 데이터를 가져오는 중 오류가 발생했습니다.",
+    });
+  }
 });
 
 // 습관 수정 (PUT /habits/:id)
@@ -60,11 +94,11 @@ router.put("/habits/:id", async (req, res) => {
 // 습관 삭제 (DELETE /habits/:id)
 router.delete("/habits/:id", async (req, res) => {
   const { id } = req.params;
+  console.log(id);
   try {
     // habitId를 문자열로 그대로 사용
-    await prisma.todayHabit.update({
-      where: { id }, // Prisma에서 id를 String으로 인식
-      data: { isActive: false },
+    await prisma.habit.delete({
+      where: { id },
     });
     res.status(204).send();
   } catch (error) {
