@@ -22,25 +22,25 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api", router);
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
-/** 1분 마다 한 시간지난 인증키 지워버리는 코드 */
-cron.schedule("* * * * *", async () => {
-  const now = new Date();
-  const oneMius = new Date(now.getTime() - 60 * 60 * 1000);
-  console.log("delete Date :", oneMius);
-  try {
-    await prisma.authKey.deleteMany({
-      where: {
-        createdAt: {
-          lt: oneMius,
-        },
-      },
-    });
-  } catch (err) {
-    console.error("스케쥴 err", err);
-  }
-});
+// /** 1분 마다 한 시간지난 인증키 지워버리는 코드 */
+// cron.schedule("* * * * *", async () => {
+//   const now = new Date();
+//   const oneMius = new Date(now.getTime() - 60 * 60 * 1000);
+//   console.log("delete Date :", oneMius);
+//   try {
+//     await prisma.authKey.deleteMany({
+//       where: {
+//         createdAt: {
+//           lt: oneMius,
+//         },
+//       },
+//     });
+//   } catch (err) {
+//     console.error("스케쥴 err", err);
+//   }
+// });
 
 const port = process.env.PORT || 8000;
 
