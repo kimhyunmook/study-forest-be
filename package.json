@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "npx prisma migrate dev && nodemon app.js",
     "start": "node app.js"
   },
   "dependencies": {
