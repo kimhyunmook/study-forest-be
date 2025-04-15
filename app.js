@@ -12,10 +12,9 @@ const app = express();
 app.use(cors());
 app.use(
   cors({
-    origin: ["*"],
+    origin: "https://study-forest.netlify.app",
     credentials: true,
     methods: ["GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"],
-
   })
 );
 
